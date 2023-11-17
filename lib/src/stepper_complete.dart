@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-class StepperCompleteBase extends StatefulWidget {
+class StepperComplete extends StatefulWidget {
   /// The [int] that is currently displayed.
   final int currentStep;
 
@@ -35,7 +35,7 @@ class StepperCompleteBase extends StatefulWidget {
   /// The [EdgeInsetsGeometry] around the edges of the [Row] of buttons.
   final EdgeInsetsGeometry? paddingButtons;
 
-  const StepperCompleteBase({
+  const StepperComplete({
     Key? key,
     required this.currentStep,
     required this.steps,
@@ -51,15 +51,15 @@ class StepperCompleteBase extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  State<StepperCompleteBase> createState() => _StepperCompleteBaseState();
+  State<StepperComplete> createState() => _StepperCompleteState();
 }
 
-class _StepperCompleteBaseState extends State<StepperCompleteBase> {
+class _StepperCompleteState extends State<StepperComplete> {
   /// The [ScrollController] used to control the scrolling of the steps.
   final ScrollController _scrollController = ScrollController();
 
   @override
-  void didUpdateWidget(covariant StepperCompleteBase oldWidget) {
+  void didUpdateWidget(covariant StepperComplete oldWidget) {
     super.didUpdateWidget(oldWidget);
     if (widget.currentStep != oldWidget.currentStep) {
       if (widget.steps.length > 4) {
