@@ -1,33 +1,39 @@
 import 'package:flutter/material.dart';
 
 class StepperCompleteBase extends StatefulWidget {
-  /// The [currentStep] that is currently displayed.
+  /// The [int] that is currently displayed.
   final int currentStep;
 
   /// The [Widget] that contains the buttons.
   final Widget? buttons;
 
-  /// The [steps] of the stepper whose titles and icons are displayed
+  /// The [List<Step>] of the stepper whose titles and icons are displayed
   /// in a horizontal list.
   final List<Step> steps;
 
-  /// The [text] that is displayed when the user is on the current step.
+  /// The [String] that is displayed when the user is on the current step.
   final String? titleStepBack;
 
-  /// The [text] that is displayed when the user is on the current step.
+  /// The [String] that is displayed when the user is on the current step.
   final String? titleStepContinue;
 
-  /// The [color] of the circle for the current step.
+  /// The [Color] of the circle for the current step.
   final Color? colorSelectedCircle;
 
-  /// The [color] of the circles for the steps that have been completed.
+  /// The [Color] of the circles for the steps that have been completed.
   final Color? colorUnselectedCircle;
 
-  /// The [callback] that is called when the user taps the continue button.
+  /// The [VoidCallback] that is called when the user taps the continue button.
   final VoidCallback? onStepContinue;
 
-  /// The [callback] that is called when the user taps the back button.
+  /// The [VoidCallback] that is called when the user taps the back button.
   final VoidCallback? onStepBack;
+
+  /// The [EdgeInsetsGeometry] around the edges of the [Column].
+  final EdgeInsetsGeometry? padding;
+
+  /// The [EdgeInsetsGeometry] around the edges of the [Row] of buttons.
+  final EdgeInsetsGeometry? paddingButtons;
 
   const StepperCompleteBase({
     Key? key,
@@ -40,6 +46,8 @@ class StepperCompleteBase extends StatefulWidget {
     this.buttons,
     this.colorSelectedCircle = Colors.blue,
     this.colorUnselectedCircle = Colors.grey,
+    this.padding,
+    this.paddingButtons,
   }) : super(key: key);
 
   @override
@@ -71,7 +79,7 @@ class _StepperCompleteBaseState extends State<StepperCompleteBase> {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 20),
+      padding: widget.padding ?? const EdgeInsets.symmetric(horizontal: 20),
       child: Column(
         children: [
           SingleChildScrollView(
@@ -126,7 +134,8 @@ class _StepperCompleteBaseState extends State<StepperCompleteBase> {
             child: widget.steps[widget.currentStep].content,
           ),
           Padding(
-            padding: const EdgeInsets.symmetric(vertical: 10),
+            padding: widget.paddingButtons ??
+                const EdgeInsets.symmetric(vertical: 10),
             child: widget.buttons ??
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
