@@ -1,6 +1,6 @@
 name: stepper_complete
-description: "StepperCompleteBase: A customizable Flutter package for creating intuitive and responsive step-by-step wizards."
-version: 0.0.5
+description: "StepperComplete: A customizable Flutter package for creating intuitive and responsive step-by-step wizards."
+version: 0.0.7
 homepage:
 repository: https://github.com/Felipe-Linhares/stepper_complete
 

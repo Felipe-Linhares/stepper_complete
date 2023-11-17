@@ -21,3 +21,7 @@
 ## 0.0.6
 
 * Added dynamic padding to the widget and button row
+
+## 0.0.7
+
+* Rename widget name

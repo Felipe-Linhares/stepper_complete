@@ -22,7 +22,7 @@ class _MyAppState extends State<MyApp> {
           appBar: AppBar(
             title: const Text('App de Passos'),
           ),
-          body: StepperCompleteBase(
+          body: StepperComplete(
             currentStep: currentStep,
             steps: List.generate(
               5,
