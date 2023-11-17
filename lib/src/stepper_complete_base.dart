@@ -11,10 +11,10 @@ class StepperCompleteBase extends StatefulWidget {
   /// in a horizontal list.
   final List<Step> steps;
 
-  /// The [text] that is displayed when the user is on the last step.
+  /// The [text] that is displayed when the user is on the current step.
   final String? titleStepBack;
 
-  /// The [text] that is displayed when the user is on the last step.
+  /// The [text] that is displayed when the user is on the current step.
   final String? titleStepContinue;
 
   /// The [color] of the circle for the current step.
@@ -84,25 +84,32 @@ class _StepperCompleteBaseState extends State<StepperCompleteBase> {
 
                 return Row(
                   children: [
-                    CircleAvatar(
-                      radius: 20,
-                      backgroundColor: isCurrentStep
-                          ? widget.colorSelectedCircle
-                          : widget.colorUnselectedCircle,
-                      child: widget.currentStep < index
-                          ? Text(
-                              '${index + 1}',
-                              style: const TextStyle(color: Colors.white),
-                            )
-                          : (widget.currentStep == index
+                    Column(
+                      children: [
+                        CircleAvatar(
+                          radius: 20,
+                          backgroundColor: isCurrentStep
+                              ? widget.colorSelectedCircle
+                              : widget.colorUnselectedCircle,
+                          child: widget.currentStep < index
                               ? Text(
                                   '${index + 1}',
                                   style: const TextStyle(color: Colors.white),
                                 )
-                              : const Icon(
-                                  Icons.check,
-                                  color: Colors.white,
-                                )),
+                              : (widget.currentStep == index
+                                  ? Text(
+                                      '${index + 1}',
+                                      style:
+                                          const TextStyle(color: Colors.white),
+                                    )
+                                  : const Icon(
+                                      Icons.check,
+                                      color: Colors.white,
+                                    )),
+                        ),
+                        if (widget.currentStep == index)
+                          widget.steps[widget.currentStep].title
+                      ],
                     ),
                     if (index != widget.steps.length - 1)
                       Container(

@@ -23,7 +23,6 @@ class _MyAppState extends State<MyApp> {
             title: const Text('App de Passos'),
           ),
           body: StepperCompleteBase(
-            titleStepBack: 'juinn',
             currentStep: currentStep,
             steps: List.generate(
               5,
