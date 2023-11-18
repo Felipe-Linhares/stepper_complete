@@ -3,8 +3,6 @@ name: pub.dev
 on:
   push:
     branches: [ "main" ]
-  pull_request:
-    branches: [ "main" ]
 
 jobs:
   build:
@@ -27,4 +25,4 @@ jobs:
         uses: dart-lang/setup-dart@v1
       - name: Publish to pub.dev
         run: |
-          echo ${{ secrets.CREDENTIAL_JSON }} | dart pub publish
+          echo ${{ secrets.CREDENTIAL_JSON }} | flutter pub publish --force
