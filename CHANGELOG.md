@@ -25,3 +25,7 @@
 ## 0.0.7
 
 * Rename widget name
+
+## 0.0.8
+
+* Indicator title correction

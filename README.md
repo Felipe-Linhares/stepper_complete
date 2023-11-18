@@ -1,4 +1,4 @@
-# StepperCompleteBase
+# StepperComplete
 
 This is a custom Flutter widget that implements a stepper (step-by-step assistant). It allows users to go through a series of steps, with the ability to move forward and backward between the steps.
 
