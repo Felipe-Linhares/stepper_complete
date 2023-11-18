@@ -29,3 +29,7 @@
 ## 0.0.8
 
 * Indicator title correction
+
+## 0.0.9
+
+* Correcting flutter version and configuring usage platform
