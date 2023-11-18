@@ -6,15 +6,8 @@ on:
 
 jobs:
   publish:
-    runs-on: ubuntu-latest
     permissions:
       id-token: write # Required for authentication using OIDC
-    steps:
-      - uses: actions/checkout@v2
-      - uses: dart-lang/setup-dart@v1
-      - name: Install dependencies
-        run: flutter pub get
-      - name: Publish to pub.dev
-        run: flutter pub publish --force
-        env:
-          PUB_CREDENTIALS: ${{ secrets.CREDENTIAL_JSON }}
+    uses: dart-lang/setup-dart/.github/workflows/publish.yml@v1
+    with:
+      environment: 'CREDENTIAL_JSON'
