@@ -1,12 +1,12 @@
 name: stepper_complete
 description: "StepperComplete: A customizable Flutter package for creating intuitive and responsive step-by-step wizards."
-version: 0.0.8
+version: 0.0.9
 homepage: https://github.com/Felipe-Linhares
 repository: https://github.com/Felipe-Linhares/stepper_complete
 
 environment:
   sdk: '>=3.0.5 <4.0.0'
-  flutter: ">=1.17.0"
+  flutter: ">=1.20.0"
 
 flutter:
   plugin:
