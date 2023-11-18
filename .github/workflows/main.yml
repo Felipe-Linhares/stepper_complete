@@ -5,17 +5,9 @@ on:
     branches: [ "main" ]
 
 jobs:
-  publish:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v2
-      - uses: subosito/flutter-action@v1
-        with:
-          flutter-version: '3.16.0'
-      - name: Install dependencies
-        run: flutter pub get
-      - uses: dart-lang/setup-dart@v1
-      - name: Publish to pub.dev
-        run: dart pub publish --force
-        env:
-          PUB_CREDENTIALS: ${{ secrets.CREDENTIAL_JSON }}
+ publish:
+    permissions:
+      id-token: write # Required for authentication using OIDC
+    uses: dart-lang/setup-dart/.github/workflows/publish.yml@v1
+    with:
+      environment: 'CREDENTIAL_JSON'
