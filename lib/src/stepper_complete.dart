@@ -81,6 +81,7 @@ class _StepperCompleteState extends State<StepperComplete> {
     return Padding(
       padding: widget.padding ?? const EdgeInsets.symmetric(horizontal: 20),
       child: Column(
+        mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: [
           SingleChildScrollView(
             controller: _scrollController,
@@ -116,11 +117,24 @@ class _StepperCompleteState extends State<StepperComplete> {
                                     )),
                         ),
                         if (widget.currentStep == index)
-                          widget.steps[widget.currentStep].title
+                          Padding(
+                            padding: const EdgeInsets.symmetric(vertical: 5),
+                            child: widget.steps[widget.currentStep].title
+                                        .toString()
+                                        .length >
+                                    20
+                                ? SizedBox(
+                                    width: 100,
+                                    child:
+                                        widget.steps[widget.currentStep].title,
+                                  )
+                                : widget.steps[widget.currentStep].title,
+                          )
                       ],
                     ),
                     if (index != widget.steps.length - 1)
                       Container(
+                        margin: const EdgeInsets.symmetric(horizontal: 5),
                         height: 1,
                         width: 50,
                         color: Colors.grey,
