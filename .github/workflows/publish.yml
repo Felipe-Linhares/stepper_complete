@@ -1,25 +1,14 @@
 name: Publish to pub.dev
 
 on:
- push:
-   tags:
-     - 'v[0-9]+.[0-9]+.[0-9]+*'
+  push:
+    tags:
+    - 'v[0-9]+.[0-9]+.[0-9]+*'
 
 jobs:
- publish:
-   runs-on: ubuntu-latest
-   steps:
-     - uses: actions/checkout@v3
-     - uses: subosito/flutter-action@v2
-     - name: Install dependencies
-       run: flutter pub get
-     - name: Run linter
-       run: flutter analyze
-     - name: Run tests
-       run: flutter test
-     - name: Run dart fix
-       run: dart fix --apply
-     - name: Publish to pub.dev
-       uses: dart-lang/setup-dart/.github/workflows/publish.yml@v1
-       with:
-         environment: 'CREDENTIAL_JSON'
+  publish:
+    permissions:
+      id-token: write 
+    uses: dart-lang/setup-dart/.github/workflows/publish.yml@v1
+    with:
+      environment: 'CREDENTIAL_JSON'
