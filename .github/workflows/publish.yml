@@ -8,7 +8,16 @@ on:
 jobs:
   publish:
     permissions:
-      id-token: write 
-    uses: dart-lang/setup-dart/.github/workflows/publish.yml@v1
-    with:
-      environment: 'CREDENTIAL_JSON'
+      id-token: write
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: subosito/flutter-action@v2
+      - name: Install dependencies
+        run: flutter pub get
+      - name: Publish
+        run: flutter pub publish --dry-run
+      - name: Publish
+        run: flutter pub publish
+        env:
+          CREDENTIAL_JSON: ${{ secrets.CREDENTIAL_JSON }}
