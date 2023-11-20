@@ -1,46 +1,25 @@
 name: Publish to pub.dev
 
 on:
-  push:
-    tags:
-    - 'v[0-9]+.[0-9]+.[0-9]+*'
+ push:
+   tags:
+     - 'v[0-9]+.[0-9]+.[0-9]+*'
 
 jobs:
-  test:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v3
-      - uses: subosito/flutter-action@v2
-      - name: Install dependencies
-        run: flutter pub get
-      - name: Run linter
-        run: flutter analyze
-      # - name: Run tests
-      #   run: flutter test
-
-  format:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v3
-      - uses: subosito/flutter-action@v2
-      - run: dart format .
-      - uses: stefanzweifel/git-auto-commit-action@v4
-        with:
-          commit_message: Update formatted files
-          file_pattern: "*.dart"
-
-  publish:
-    needs: [test, format]
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v3
-      - uses: subosito/flutter-action@v2
-      - name: Install dependencies
-        run: flutter pub get
-      - name: Publish
-        run: flutter pub publish --dry-run
-      - name: Publish
-        if: github.ref == 'refs/heads/main'
-        run: flutter pub publish
-        env:
-          PUB_TOKEN: ${{ secrets.CREDENTIAL_JSON }}
+ publish:
+   runs-on: ubuntu-latest
+   steps:
+     - uses: actions/checkout@v3
+     - uses: subosito/flutter-action@v2
+     - name: Install dependencies
+       run: flutter pub get
+     - name: Run linter
+       run: flutter analyze
+     - name: Run tests
+       run: flutter test
+     - name: Run dart fix
+       run: dart fix --apply
+     - name: Publish to pub.dev
+       uses: dart-lang/setup-dart/.github/workflows/publish.yml@v1
+       with:
+         environment: 'CREDENTIAL_JSON'
