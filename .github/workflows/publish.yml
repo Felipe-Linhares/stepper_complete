@@ -7,17 +7,15 @@ on:
 
 jobs:
   publish:
-    permissions:
-      id-token: write
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v2
       - uses: subosito/flutter-action@v2
       - name: Install dependencies
         run: flutter pub get
       - name: Publish
         run: flutter pub publish --dry-run
       - name: Publish
-        run: flutter pub publish -f
-        env:
-          CREDENTIAL_JSON: ${{ secrets.CREDENTIAL_JSON }}
+        run: |
+          CREDENTIALS=$(echo '${{ secrets.CREDENTIAL_JSON }}' | jq -r '.')
+          flutter pub publish -f --access-token=${CREDENTIALS[accessToken]} --refresh-token=${CREDENTIALS[refreshToken]}
