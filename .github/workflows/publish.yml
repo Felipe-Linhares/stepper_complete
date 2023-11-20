@@ -1,24 +1,24 @@
-name: publish
+name: Publish to pub.dev
 
 on:
   push:
     tags:
-      - 'v[0-9]+.[0-9]+.[0-9]+*'
+    - 'v[0-9]+.[0-9]+.[0-9]+*'
 
 jobs:
   publish:
-    permissions:
-      id-token: write
     runs-on: ubuntu-latest
+    permissions:
+      id-token: write # Required for authentication using OIDC
     steps:
-      - uses: actions/checkout@v3
-      - uses: subosito/flutter-action@v2
+      - uses: actions/checkout@v2
+      - uses: subosito/flutter-action@v1
+        with:
+          flutter-version: '3.16.0'
       - name: Install dependencies
         run: flutter pub get
-      - name: Publish
-        run: flutter pub publish --dry-run
-      - name: Publish
-        if: github.ref == 'refs/heads/main'
-        run: flutter pub publish
+      - uses: dart-lang/setup-dart@v1
+      - name: Publish to pub.dev
+        run: dart pub publish --force
         env:
-          CREDENTIAL_JSON: ${{ secrets.CREDENTIAL_JSON }}
+          PUB_CREDENTIALS: ${{ secrets.CREDENTIAL_JSON }}
