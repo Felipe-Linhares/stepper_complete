@@ -3,19 +3,12 @@ name: Publish to pub.dev
 on:
   push:
     tags:
-    - 'v[0-9]+.[0-9]+.[0-9]+*'
+      - 'v[0-9]+.[0-9]+.[0-9]+*'
 
 jobs:
   publish:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v2
-      - uses: subosito/flutter-action@v2
-      - name: Install dependencies
-        run: flutter pub get
-      - name: Publish
-        run: flutter pub publish --dry-run
-      - name: Publish
-        run: |
-          CREDENTIALS=$(echo '${{ secrets.CREDENTIAL_JSON }}' | jq -r '.')
-          flutter pub publish -f --access-token=${CREDENTIALS[accessToken]} --refresh-token=${CREDENTIALS[refreshToken]}
+    permissions:
+      id-token: write # Required for authentication using OIDC
+    uses: dart-lang/setup-dart/.github/workflows/publish.yml@v1
+    # with:
+    #   working-directory: path/to/package/within/repository
