@@ -18,6 +18,6 @@ jobs:
       - name: Publish
         run: flutter pub publish --dry-run
       - name: Publish
-        run: flutter pub publish
+        run: flutter pub publish -f
         env:
           CREDENTIAL_JSON: ${{ secrets.CREDENTIAL_JSON }}
