@@ -33,3 +33,7 @@
 ## 0.0.9
 
 * Correcting flutter version and configuring usage platform
+
+## 0.1.0
+
+* Improved horizontal scrolling, making scrolling dynamic

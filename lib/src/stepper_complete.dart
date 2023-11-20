@@ -58,21 +58,52 @@ class _StepperCompleteState extends State<StepperComplete> {
   /// The [ScrollController] used to control the scrolling of the steps.
   final ScrollController _scrollController = ScrollController();
 
+  /// The [List<GlobalKey>] of the steps.
+  late List<GlobalKey> _stepKeys;
+
+  @override
+  void initState() {
+    super.initState();
+    // Create a list of keys, one for each step.
+    _stepKeys = List<GlobalKey>.generate(
+      widget.steps.length,
+      (_) => GlobalKey(),
+    );
+  }
+
   @override
   void didUpdateWidget(covariant StepperComplete oldWidget) {
     super.didUpdateWidget(oldWidget);
     if (widget.currentStep != oldWidget.currentStep) {
-      if (widget.steps.length > 4) {
-        if (widget.currentStep == 0) {
-          _scrollController.jumpTo(0.0);
-        } else {
-          _scrollController.animateTo(
-            widget.currentStep * 60.0,
-            duration: const Duration(milliseconds: 500),
-            curve: Curves.easeInOut,
-          );
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        // if there are more than 4 steps, scroll to the middle of the current step
+        if (widget.steps.length > 4) {
+          if (widget.currentStep == 0) {
+            _scrollController.jumpTo(0.0);
+          } else {
+            // calculate the offset by adding up the widths of previous steps
+            double offset =
+                _stepKeys.sublist(0, widget.currentStep).map((GlobalKey key) {
+              final RenderBox currentStepRenderBox =
+                  key.currentContext!.findRenderObject() as RenderBox;
+              return currentStepRenderBox.size.width;
+            }).reduce((double value, double element) => value + element);
+            // calculate the width of the current step
+            final RenderBox currentStepRenderBox = _stepKeys[widget.currentStep]
+                .currentContext!
+                .findRenderObject() as RenderBox;
+            final double stepWidth = currentStepRenderBox.size.width;
+            // calculate the width of the screen
+            final double screenWidth = MediaQuery.of(context).size.width;
+            // scroll to the middle of the current step
+            _scrollController.animateTo(
+              offset - screenWidth / 2 + stepWidth / 2,
+              duration: const Duration(milliseconds: 500),
+              curve: Curves.easeInOut,
+            );
+          }
         }
-      }
+      });
     }
   }
 
@@ -88,49 +119,43 @@ class _StepperCompleteState extends State<StepperComplete> {
             scrollDirection: Axis.horizontal,
             child: Row(
               children: widget.steps.map((step) {
+                // get the index of the step
                 int index = widget.steps.indexOf(step);
+                // check if the step is the current step
                 bool isCurrentStep = index == widget.currentStep;
 
                 return Row(
+                  key: _stepKeys[index],
                   children: [
-                    Column(
-                      children: [
-                        CircleAvatar(
-                          radius: 20,
-                          backgroundColor: isCurrentStep
-                              ? widget.colorSelectedCircle
-                              : widget.colorUnselectedCircle,
-                          child: widget.currentStep < index
-                              ? Text(
-                                  '${index + 1}',
-                                  style: const TextStyle(color: Colors.white),
-                                )
-                              : (widget.currentStep == index
-                                  ? Text(
-                                      '${index + 1}',
-                                      style:
-                                          const TextStyle(color: Colors.white),
-                                    )
-                                  : const Icon(
-                                      Icons.check,
-                                      color: Colors.white,
-                                    )),
-                        ),
-                        if (widget.currentStep == index)
-                          Padding(
-                            padding: const EdgeInsets.symmetric(vertical: 5),
-                            child: widget.steps[widget.currentStep].title
-                                        .toString()
-                                        .length >
-                                    20
-                                ? SizedBox(
-                                    width: 100,
-                                    child:
-                                        widget.steps[widget.currentStep].title,
+                    Padding(
+                      padding: const EdgeInsets.only(top: 10, bottom: 10),
+                      child: Column(
+                        children: [
+                          CircleAvatar(
+                            radius: 20,
+                            backgroundColor: isCurrentStep
+                                ? widget.colorSelectedCircle
+                                : widget.colorUnselectedCircle,
+                            child: widget.currentStep < index
+                                ? Text(
+                                    '${index + 1}',
+                                    style: const TextStyle(color: Colors.white),
                                   )
-                                : widget.steps[widget.currentStep].title,
-                          )
-                      ],
+                                : (widget.currentStep == index
+                                    ? Text(
+                                        '${index + 1}',
+                                        style: const TextStyle(
+                                            color: Colors.white),
+                                      )
+                                    : const Icon(
+                                        Icons.check,
+                                        color: Colors.white,
+                                      )),
+                          ),
+                          if (widget.currentStep == index)
+                            widget.steps[widget.currentStep].title
+                        ],
+                      ),
                     ),
                     if (index != widget.steps.length - 1)
                       Container(
