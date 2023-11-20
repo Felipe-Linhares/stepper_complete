@@ -21,13 +21,15 @@ class _MyAppState extends State<MyApp> {
       home: Scaffold(
           appBar: AppBar(
             title: const Text('App de Passos'),
+            backgroundColor: Colors.blue,
           ),
           body: StepperComplete(
             currentStep: currentStep,
             steps: List.generate(
               5,
               (index) => Step(
-                title: Text('Step ${index + 1}'),
+                title: Text('Step ${index + 1} + djsk',
+                    style: const TextStyle(fontSize: 50)),
                 content: Form(
                   key: formKeys[index],
                   child: SingleChildScrollView(
@@ -55,13 +57,6 @@ class _MyAppState extends State<MyApp> {
                 ),
               ),
             ),
-            // onStepTapped: (step) {
-            //   if (formKeys[currentStep].currentState!.validate()) {
-            //     setState(() {
-            //       currentStep = step;
-            //     });
-            //   }
-            // },
             onStepContinue: () {
               setState(() {
                 if (currentStep < 19) {

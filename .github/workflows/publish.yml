@@ -6,19 +6,31 @@ on:
     - 'v[0-9]+.[0-9]+.[0-9]+*'
 
 jobs:
-  publish:
+   test:
     runs-on: ubuntu-latest
-    permissions:
-      id-token: write # Required for authentication using OIDC
     steps:
-      - uses: actions/checkout@v2
-      - uses: subosito/flutter-action@v1
-        with:
-          flutter-version: '3.16.0'
+      - uses: actions/checkout@v3
+      - uses: subosito/flutter-action@v2
       - name: Install dependencies
         run: flutter pub get
-      - uses: dart-lang/setup-dart@v1
-      - name: Publish to pub.dev
-        run: dart pub publish --force
-        env:
-          PUB_CREDENTIALS: ${{ secrets.CREDENTIAL_JSON }}
+      - name: Run linter
+        run: flutter analyze
+      # - name: Run tests
+      #   run: flutter test
+
+   format:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: subosito/flutter-action@v2
+      - run: dart format .
+      - uses: stefanzweifel/git-auto-commit-action@v4
+        with:
+          commit_message: Update formatted files
+          file_pattern: "*.dart"
+
+   publish:
+    permissions:
+      id-token: write 
+    uses: dart-lang/setup-dart/.github/workflows/publish.yml@v1
+
