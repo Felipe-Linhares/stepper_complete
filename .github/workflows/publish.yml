@@ -30,6 +30,7 @@ jobs:
           file_pattern: "*.dart"
 
    publish:
+    needs: [test, format]
     permissions:
       id-token: write 
     uses: dart-lang/setup-dart/.github/workflows/publish.yml@v1
